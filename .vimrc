@@ -64,10 +64,19 @@ inoremap v <C-x><C-v>
 set path=,,**
 
 if executable('rg')
-    set grepprg=rg\ --vimgrep\ --smart-case
+    set grepprg=rg\ --vimgrep\ --smart-case\ --\ '$*'
 else
-    set grepprg=grep\ -EHnr
+    set grepprg=grep\ -EHnr\ --\ '$*'
 endif
+
+function! ToggleQuickFix() abort
+    if empty(filter(getwininfo(), 'v:val.quickfix'))
+        botright 10copen
+    else
+        cclose
+    endif
+endfunction
+nnoremap <silent> <leader>co :call ToggleQuickFix()<cr>
 
 nnoremap <space>w <c-w>
 nnoremap <leader>b :ls<cr>:buffer<space>
