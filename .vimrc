@@ -12,7 +12,7 @@ if has("gui_running")
 else
     if has("termguicolors")
         set termguicolors
-        colorscheme my_dracula
+        colorscheme dracula_clean
     else
         colorscheme ron
     endif
