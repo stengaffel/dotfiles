@@ -43,3 +43,30 @@ function! SimpleFindDefinition(language) abort
         call cursor(line_num, line_col)
     endif
 endfunction
+
+
+function! MyDiff() abort
+    let l:git_prefix = 'git -C ' . expand('%:p:h')
+    if system(l:git_prefix . ' rev-parse --is-inside-work-tree') !~ 'true'
+        echom 'Current file is not in a git repo!'
+        return
+    endif
+
+    let l:filename = expand("%:p")
+    let l:filetype = &filetype
+
+    -tabnew
+    execute 'edit ' . l:filename
+    leftabove vnew
+    let l:repo_relative_path = system(l:git_prefix . ' ls-files --full-name ' . l:filename)
+    silent execute '0read !' . l:git_prefix . ' show :' .l:repo_relative_path
+    $delete _
+    setlocal buftype=nofile
+    setlocal bufhidden=wipe
+    setlocal readonly nomodifiable noswapfile
+    let &filetype = l:filetype
+
+    diffthis
+    wincmd p
+    diffthis
+endfunction
