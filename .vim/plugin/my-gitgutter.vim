@@ -1,9 +1,9 @@
-highlight SignAdd guifg=#50fa7b guibg=#44475a
-highlight SignDel guifg=#ff5555 guibg=#44475a
-highlight SignMod guifg=#ffb86c guibg=#44475a
+highlight SignAdd guifg=#50fa7b guibg=#282a36
+highlight SignDel guifg=#ff5555 guibg=#282a36
+highlight SignMod guifg=#ffb86c guibg=#282a36
 
 call sign_define('GitAddSign', {'text': '+', 'texthl': 'SignAdd'})
-call sign_define('GitDelSign', {'text': '-', 'texthl': 'SignDel'})
+call sign_define('GitDelSign', {'text': '—', 'texthl': 'SignDel'})
 call sign_define('GitModSign', {'text': '~', 'texthl': 'SignMod'})
 
 let s:sign_group = 'my_sign_group'

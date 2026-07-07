@@ -7,8 +7,13 @@ if has("gui_running")
     set guioptions-=r
     set guioptions-=T
     set guioptions-=L
+    set guioptions-=e
     set guifont=Consolas:h12
     set belloff=all
+    augroup CustomHighlighting
+        autocmd!
+        autocmd ColorScheme * hi clear TabLineFill | hi link TabLineFill TabLine
+    augroup END
 else
     if has("termguicolors")
         set termguicolors
@@ -81,6 +86,7 @@ nnoremap <silent> <leader>co :call ToggleQuickFix()<cr>
 nnoremap <space>w <c-w>
 nnoremap <leader>b :ls<cr>:buffer<space>
 nnoremap <leader>f :find<space>
+"nnoremap <leader>f :MyFind<space>
 nnoremap <leader>j :jumps<cr>
 nnoremap <leader>m :marks abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ<cr>:normal! `
 nnoremap <leader>/ :grep<space>
@@ -91,9 +97,11 @@ nnoremap <leader>cr :w<cr>:source %<cr>
 inoremap kl <Esc>
 
 if executable('git')
-    nnoremap <leader>gd :execute '!git -C ' . expand('%:p:h') . ' diff ' . expand('%:p')<cr>
+    nnoremap <leader>gd :!clear<cr>:execute '!git -C ' . expand('%:p:h') . ' diff ' . expand('%:p')<cr>
     nnoremap <leader>gl :execute '!git -C ' . expand('%:p:h') . ' log --stat ' . expand('%:p')<cr>
     nnoremap <leader>gp :execute '!git -C ' . expand('%:p:h') . ' log --patch --stat ' . expand('%:p')<cr>
+    nnoremap <leader>gt :call MyDiff()<cr>
+    nnoremap <leader>gg :call ToggleMyGitGutter()<cr>
 endif
 
 set laststatus=2
@@ -157,3 +165,5 @@ if has("gui_running")
     nnoremap <C--> :call ChangeFontSize('dec')<cr>
     set laststatus=0
 endif
+
+nnoremap <space><space> :echo "hi<" . synIDattr(synID(line("."), col("."), 1), "name") . ">"<cr>

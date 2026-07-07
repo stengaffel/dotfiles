@@ -70,7 +70,7 @@ call s:hi('Identifier', s:cyan, 'NONE', 'NONE', 'NONE', 'NONE')
 call s:hi('PreProc', s:pink, 'NONE', 'NONE', 'NONE', 'NONE')
 call s:hi('Special', s:pink, 'NONE', 'NONE', 'NONE', 'NONE')
 call s:hi('Boolean', s:cyan, 'NONE', 'NONE', 'NONE', 'NONE')
-call s:hi('SignColumn', 'NONE', s:current_line_color, 'NONE', 'NONE', 'NONE')
+call s:hi('SignColumn', 'NONE', s:background_color, 'NONE', 'NONE', 'NONE')
 
 call s:hi('DiffAdd', 'BLACK', s:green, 'NONE', 'NONE', 'NONE')
 call s:hi('DiffDelete', 'BLACK', s:red, 'NONE', 'NONE', 'NONE')
