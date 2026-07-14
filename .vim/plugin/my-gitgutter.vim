@@ -1,11 +1,3 @@
-highlight SignAdd guifg=#50fa7b guibg=#282a36
-highlight SignDel guifg=#ff5555 guibg=#282a36
-highlight SignMod guifg=#ffb86c guibg=#282a36
-
-call sign_define('GitAddSign', {'text': '+', 'texthl': 'SignAdd'})
-call sign_define('GitDelSign', {'text': '—', 'texthl': 'SignDel'})
-call sign_define('GitModSign', {'text': '~', 'texthl': 'SignMod'})
-
 let s:sign_group = 'my_sign_group'
 
 function! UpdateDiffSigns() abort
@@ -42,6 +34,21 @@ function! UpdateDiffSigns() abort
 endfunction
 
 
+function! DefineMySigns() abort
+    let l:guibg = synIDattr(hlID('SignColumn'), 'bg#')
+    let l:guibg = empty(l:guibg) || l:guibg =~ '\v^[0-9]' ? 'NONE' : l:guibg
+    let l:ctermbg = synIDattr(hlID('SignColumn'), 'bg')
+    let l:ctermbg = empty(l:ctermbg) || l:ctermbg =~ '\v^#[0-9]' ? 'NONE' : l:ctermbg
+
+    execute 'highlight SignAdd ctermfg=GREEN  ctermbg=' . l:ctermbg . ' guifg=#50fa7b guibg=' . l:guibg
+    execute 'highlight SignDel ctermfg=RED    ctermbg=' . l:ctermbg . ' guifg=#ff5555 guibg=' . l:guibg
+    execute 'highlight SignMod ctermfg=YELLOW   ctermbg=' . l:ctermbg . ' guifg=#ffb86c guibg=' . l:guibg
+    call sign_define('GitAddSign', {'text': '+', 'texthl': 'SignAdd'})
+    call sign_define('GitDelSign', {'text': '—', 'texthl': 'SignDel'})
+    call sign_define('GitModSign', {'text': '~', 'texthl': 'SignMod'})
+endfunction
+
+
 function! ToggleMyGitGutter() abort
     if executable('git')
         if !exists('g:mygitgutter_enabled')
@@ -57,9 +64,12 @@ function! ToggleMyGitGutter() abort
             augroup mygitgutter
                 autocmd!
                 au BufReadPost,BufWritePost * call UpdateDiffSigns()
+                au ColorScheme * call DefineMySigns()
+                call DefineMySigns()
                 call UpdateDiffSigns()
             augroup END
             let g:mygitgutter_enabled = 1
         endif
     endif
 endfunction
+call ToggleMyGitGutter()
