@@ -8,7 +8,7 @@ function! UpdateDiffSigns() abort
     call sign_unplace(s:sign_group, {'buffer': bufnr('%')})
     let l:diff_str_list = systemlist(l:git_prefix . ' diff -U0 ' . expand('%:p'))
     for l:line in l:diff_str_list
-        if l:line =~ '\v^\@\@'
+        if l:line =~# '\v^\@\@'
             let l:match = matchlist(l:line, '\v\+([0-9]+)%(\,([0-9]+))?')
             let l:start_line = str2nr(l:match[1])
             let l:count = empty(l:match[2]) ? 1 : str2nr(l:match[2])
@@ -36,13 +36,13 @@ endfunction
 
 function! DefineMySigns() abort
     let l:guibg = synIDattr(hlID('SignColumn'), 'bg#')
-    let l:guibg = empty(l:guibg) || l:guibg =~ '\v^[0-9]' ? 'NONE' : l:guibg
+    let l:guibg = empty(l:guibg) || l:guibg =~# '\v^[A-Fa-f0-9]' ? 'NONE' : l:guibg
     let l:ctermbg = synIDattr(hlID('SignColumn'), 'bg')
-    let l:ctermbg = empty(l:ctermbg) || l:ctermbg =~ '\v^#[0-9]' ? 'NONE' : l:ctermbg
+    let l:ctermbg = empty(l:ctermbg) || l:ctermbg =~# '\v^#[A-Fa-f0-9]' ? 'NONE' : l:ctermbg
 
     execute 'highlight SignAdd ctermfg=GREEN  ctermbg=' . l:ctermbg . ' guifg=#50fa7b guibg=' . l:guibg
     execute 'highlight SignDel ctermfg=RED    ctermbg=' . l:ctermbg . ' guifg=#ff5555 guibg=' . l:guibg
-    execute 'highlight SignMod ctermfg=YELLOW   ctermbg=' . l:ctermbg . ' guifg=#ffb86c guibg=' . l:guibg
+    execute 'highlight SignMod ctermfg=YELLOW ctermbg=' . l:ctermbg . ' guifg=#ffb86c guibg=' . l:guibg
     call sign_define('GitAddSign', {'text': '+', 'texthl': 'SignAdd'})
     call sign_define('GitDelSign', {'text': '—', 'texthl': 'SignDel'})
     call sign_define('GitModSign', {'text': '~', 'texthl': 'SignMod'})
