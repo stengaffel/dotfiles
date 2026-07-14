@@ -122,18 +122,28 @@ if executable('git')
         endif
     endfunction
     augroup gitinfo
-        au!
-        au BufReadPost,BufWritePost * let b:git_info = GetGitInfo()
+        autocmd!
+        autocmd BufReadPost,BufWritePost * let b:git_info = GetGitInfo()
     augroup END
-    if !hlexists('HLStatusLineNormal')
-        hi HLStatusLineNormal    guifg=black guibg=white ctermfg=black ctermbg=white
-        hi HLStatusLineMod       guifg=black guibg=white ctermfg=black ctermbg=white
-        hi HLStatusLineReadOnly  guifg=black guibg=white ctermfg=black ctermbg=white
-        hi HLStatusLineEdge      guifg=black guibg=white ctermfg=black ctermbg=white
-        hi HLStatusLineGitBranch guifg=black guibg=white ctermfg=black ctermbg=white
-        hi HLStatusLineGitAdd    guifg=black guibg=white ctermfg=black ctermbg=white
-        hi HLStatusLineGitDel    guifg=black guibg=white ctermfg=black ctermbg=white
-    endif
+
+    function! SetDefaultStatusline() abort
+        if !empty(synIDattr(hlID('HLStatusLineNormal'), 'bg'))
+            return
+        endif
+        hi HLStatusLineNormal    guifg=grey80 guibg=grey20 ctermfg=grey  ctermbg=black
+        hi HLStatusLineMod       guifg=grey80 guibg=grey20 ctermfg=grey  ctermbg=black
+        hi HLStatusLineReadOnly  guifg=grey80 guibg=grey20 ctermfg=grey  ctermbg=black
+        hi HLStatusLineEdge      guifg=grey20 guibg=grey80 ctermfg=black ctermbg=grey
+        hi HLStatusLineGitBranch guifg=grey80 guibg=grey20 ctermfg=grey  ctermbg=black
+        hi HLStatusLineGitAdd    guifg=grey80 guibg=grey20 ctermfg=grey  ctermbg=black
+        hi HLStatusLineGitDel    guifg=grey80 guibg=grey20 ctermfg=grey  ctermbg=black
+    endfunction
+    augroup statusline_default
+        autocmd!
+        autocmd ColorScheme * call SetDefaultStatusline()
+    augroup END
+    call SetDefaultStatusline()
+
     set statusline=%#HLStatusLineEdge#\ \ %n\ \ 
     set statusline+=%#HLStatusLineNormal#\ %.60t
     set statusline+=%#HLStatusLineMod#%m
