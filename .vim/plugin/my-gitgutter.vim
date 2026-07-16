@@ -64,7 +64,9 @@ function! ToggleMyGitGutter() abort
             augroup mygitgutter
                 autocmd!
                 au BufReadPost,BufWritePost * call UpdateDiffSigns()
-                au ColorScheme * call DefineMySigns()
+                au ColorScheme * highlight clear SignColumn
+                    \ | highlight link SignColumn Normal
+                    \ | call DefineMySigns()
                 call DefineMySigns()
                 call UpdateDiffSigns()
             augroup END
