@@ -2,7 +2,7 @@ let s:sign_group = 'my_sign_group'
 
 function! UpdateDiffSigns() abort
     let l:git_prefix = 'git -C ' . expand('%:p:h')
-    if system(l:git_prefix . ' rev-parse --is-inside-work-tree') !~ 'true'
+    if system(l:git_prefix . ' rev-parse --is-inside-work-tree') !~# 'true' || empty(expand('%:p'))
         return
     endif
     call sign_unplace(s:sign_group, {'buffer': bufnr('%')})

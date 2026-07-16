@@ -109,7 +109,7 @@ if executable('git')
     let b:git_info = ['', '', '']
     function! GetGitInfo() abort
         let git_prefix = 'git -C ' . expand('%:p:h')
-        if system(git_prefix . ' rev-parse --is-inside-work-tree') =~ 'true'
+        if system(git_prefix . ' rev-parse --is-inside-work-tree') =~# 'true'
             let repo_name = matchstr(system(git_prefix . ' rev-parse --show-toplevel'), '\v\/\zs[^\/\n]+\ze[ \n]*$')
             let branch_name = matchstr(system(git_prefix . ' rev-parse --abbrev-ref HEAD'), '\v^[^\n]+\ze')
             let git_repo_and_branch = repo_name . ' (' . branch_name . ')'
