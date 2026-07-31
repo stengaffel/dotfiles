@@ -2,7 +2,7 @@ function! MyComplete(ArgLead, CmdLine, CursorPos) abort
     let matches = []
     if executable('rg')
         let processed_arglead = substitute(a:ArgLead, '\v*', '[^/]*', 'g')
-        let matches = systemlist("rg --files | rg '(?:^|/)" . processed_arglead . "[^\/]*$'")
+        let matches = systemlist("rg --files --hidden | rg --smart-case '(?:^|/)" . processed_arglead . "[^\/]*$'")
         call sort(matches)
     endif
     return matches
@@ -10,7 +10,7 @@ endfunction
 function! OpenFile(filename) abort
     execute 'edit ' . a:filename
 endfunction
-command -complete=customlist,MyComplete -nargs=1 MyFind call OpenFile(<f-args>)
+command! -complete=customlist,MyComplete -nargs=1 MyFind call OpenFile(<f-args>)
 
 
 function! SimpleFindDefinition(language) abort
@@ -70,3 +70,12 @@ function! MyDiff() abort
     wincmd p
     diffthis
 endfunction
+
+
+function! MyCustomRg(args)
+    let l:cmd = 'rg --vimgrep --smart-case --no-ignore --hidden ' . a:args
+    execute 'silent cexpr system(' . string(l:cmd) . ')'
+    copen
+    redraw!
+endfunction
+command! -nargs=+ -complete=file RgForce call MyCustomRg(<q-args>)
