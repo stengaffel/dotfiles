@@ -67,9 +67,9 @@ function! ToggleMyGitGutter() abort
                 au ColorScheme * highlight clear SignColumn
                     \ | highlight link SignColumn Normal
                     \ | call DefineMySigns()
-                call DefineMySigns()
-                call UpdateDiffSigns()
             augroup END
+            call DefineMySigns()
+            call UpdateDiffSigns()
             let g:mygitgutter_enabled = 1
         endif
     endif
