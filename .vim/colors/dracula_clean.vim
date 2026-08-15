@@ -41,7 +41,7 @@ function s:hi(group, guifg, guibg, guisp, gui, cterm) abort
     endif
 endfunction
 
-call s:hi('Normal', 'NONE', 'NONE', 'NONE', 'NONE', 'NONE')
+call s:hi('Normal', s:foreground_color, s:background_color, 'NONE', 'NONE', 'NONE')
 call s:hi('Directory', s:cyan, 'NONE', 'NONE', 'NONE', 'NONE')
 call s:hi('LineNrAbove', 'GREY', 'NONE', 'NONE', 'NONE', 'NONE')
 call s:hi('LineNr', s:yellow, 'NONE', 'NONE', 'NONE', 'NONE')
@@ -78,6 +78,7 @@ call s:hi('DiffChange', 'BLACK', s:orange, 'NONE', 'NONE', 'NONE')
 call s:hi('DiffText', 'BLACK', s:yellow, 'NONE', 'NONE', 'NONE')
 
 call s:hi('netrwTreeBar', s:purple, 'NONE', 'NONE', 'NONE', 'NONE')
+call s:hi('netrwExe', s:green, 'NONE', 'NONE', 'NONE', 'NONE')
 
 call s:hi('HLStatusLineNormal', s:foreground_color, s:current_line_color, 'NONE', 'NONE', 'NONE')
 call s:hi('HLStatusLineMod', s:red, s:current_line_color, 'NONE', 'NONE', 'NONE')
