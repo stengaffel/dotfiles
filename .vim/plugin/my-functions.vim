@@ -2,7 +2,7 @@ function! MyComplete(ArgLead, CmdLine, CursorPos) abort
     let matches = []
     if executable('rg')
         let processed_arglead = substitute(a:ArgLead, '\v*', '[^/]*', 'g')
-        let matches = systemlist("rg --files --hidden | rg --smart-case '(?:^|/)" . processed_arglead . "[^\/]*$'")
+        let matches = systemlist("rg --files | rg --smart-case '(?:^|/)" . processed_arglead . "[^\/]*$'")
         call sort(matches)
     endif
     return matches
