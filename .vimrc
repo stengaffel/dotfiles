@@ -30,6 +30,7 @@ syntax enable
 let g:netrw_liststyle=3
 let g:netrw_banner=0
 let g:netrw_winsize=-40
+let g:netrw_bufsettings="noma nomod nonu nobl nowrap ro rnu"
 nnoremap <leader>t :Lexplore<cr>
 nnoremap <leader>ct :execute ':Lexplore ' . expand('%:p:h')<cr>
 
