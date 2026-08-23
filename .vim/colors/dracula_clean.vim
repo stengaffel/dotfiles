@@ -42,6 +42,7 @@ function s:hi(group, guifg, guibg, guisp, gui, cterm) abort
 endfunction
 
 call s:hi('Normal', s:foreground_color, s:background_color, 'NONE', 'NONE', 'NONE')
+call s:hi('NonText', s:comment_color, s:background_color, 'NONE', 'NONE', 'NONE')
 call s:hi('Directory', s:cyan, 'NONE', 'NONE', 'NONE', 'NONE')
 call s:hi('LineNrAbove', 'GREY', 'NONE', 'NONE', 'NONE', 'NONE')
 call s:hi('LineNr', s:yellow, 'NONE', 'NONE', 'NONE', 'NONE')
