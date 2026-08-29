@@ -1,6 +1,6 @@
 let s:sign_group = 'my_sign_group'
 
-function! UpdateDiffSigns() abort
+function! s:update_diff_signs() abort
     let l:git_prefix = 'git -C ' . expand('%:p:h')
     if system(l:git_prefix . ' rev-parse --is-inside-work-tree') !~# 'true' || empty(expand('%:p'))
         return
@@ -34,7 +34,7 @@ function! UpdateDiffSigns() abort
 endfunction
 
 
-function! DefineMySigns() abort
+function! s:define_my_signs() abort
     let l:guibg = synIDattr(hlID('SignColumn'), 'bg#')
     let l:guibg = empty(l:guibg) || l:guibg =~# '\v^[A-Fa-f0-9]' ? 'NONE' : l:guibg
     let l:ctermbg = synIDattr(hlID('SignColumn'), 'bg')
@@ -63,13 +63,13 @@ function! ToggleMyGitGutter() abort
         else
             augroup mygitgutter
                 autocmd!
-                au BufReadPost,BufWritePost * call UpdateDiffSigns()
+                au BufReadPost,BufWritePost * call s:update_diff_signs()
                 au ColorScheme * highlight clear SignColumn
                     \ | highlight link SignColumn Normal
-                    \ | call DefineMySigns()
+                    \ | call s:define_my_signs()
             augroup END
-            call DefineMySigns()
-            call UpdateDiffSigns()
+            call s:define_my_signs()
+            call s:update_diff_signs()
             let g:mygitgutter_enabled = 1
         endif
     endif

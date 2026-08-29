@@ -19,7 +19,7 @@ let s:purple = '#bd93f9'
 let s:red = '#ff5555'
 let s:yellow = '#f1fa8c'
 
-function s:hi(group, guifg, guibg, guisp, gui, cterm) abort
+function! s:hi(group, guifg, guibg, guisp, gui, cterm) abort
     let cmd = ''
     if a:guifg != ''
         let cmd = cmd . ' guifg=' . a:guifg
@@ -65,8 +65,8 @@ call s:hi('VertSplit', s:foreground_color, 'NONE', 'NONE', 'NONE', 'NONE')
 call s:hi('Title', s:foreground_color, 'NONE', 'NONE', 'NONE', 'NONE')
 call s:hi('Visual', 'BLACK', 'WHITE', 'NONE', 'NONE', 'NONE')
 call s:hi('Search', 'BLACK', s:yellow, 'NONE', 'NONE', 'NONE')
-call s:hi('Folded', s:cyan, 'gray30', 'NONE', 'NONE', 'NONE')
-call s:hi('FoldColumn', s:cyan, 'gray30', 'NONE', 'NONE', 'NONE')
+call s:hi('Folded', s:cyan, s:current_line_color, 'NONE', 'NONE', 'NONE')
+call s:hi('FoldColumn', s:cyan, s:current_line_color, 'NONE', 'NONE', 'NONE')
 call s:hi('Identifier', s:cyan, 'NONE', 'NONE', 'NONE', 'NONE')
 call s:hi('PreProc', s:pink, 'NONE', 'NONE', 'NONE', 'NONE')
 call s:hi('Special', s:pink, 'NONE', 'NONE', 'NONE', 'NONE')
