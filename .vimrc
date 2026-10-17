@@ -67,6 +67,12 @@ inoremap f <C-x><C-f>
 inoremap l <C-x><C-l>
 inoremap v <C-x><C-v>
 
+nnoremap o <C-o>
+nnoremap i <C-i>
+
+nnoremap k <C-u>
+nnoremap j <C-d>
+
 set path=,,**
 
 if executable('rg')
@@ -93,6 +99,7 @@ nnoremap <leader>m :marks abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ<c
 nnoremap <leader>/ :grep<space>
 nnoremap <leader>cc :e ~/.vimrc<cr>
 nnoremap <leader>cr :w<cr>:source %<cr>
+"nnoremap <silent> <leader>gu :call FindUsages(expand('<cword>'))<cr>zz
 
 " map kl to Esc
 inoremap kl <Esc>
