@@ -71,7 +71,7 @@ function! UpdateMenu() abort
     endif
     function! s:format_line(idx, val) abort
         let matches = matchlist(a:val.full_option, s:location_format_pattern . '(.*)')
-        return printf('%-' . (g:scratch_menu.state.max_len+5) . 's', matches[1]) . trim(matches[2])
+        return printf('%-' . (g:scratch_menu.state.max_len+1) . 's', matches[1]) . trim(matches[2])
     endfunction
     let g:scratch_menu.state.max_len = max(map(copy(g:scratch_menu.options), {idx, val ->
         \ strdisplaywidth(matchstr(val.full_option, s:location_format_pattern))}))
@@ -139,12 +139,12 @@ function! s:scratch_open_file(option_str) abort
     endif
 endfunction
 
-function! FindUsages(pattern) abort
+function! FindUsages(pattern, extra_flags) abort
     let l:command = ""
     if executable('rg')
-        let l:command = "rg --hidden --vimgrep -wF '" . a:pattern . "'"
+        let l:command = "rg --hidden --vimgrep -F " . a:extra_flags . " " . shellescape(a:pattern)
     else
-        let l:command = "grep -EInr '" . a:pattern . "'"
+        let l:command = "grep -FInr " . a:extra_flags . " " . shellescape(a:pattern)
     endif
     let l:options = systemlist(l:command)
     if empty(l:options)
@@ -170,7 +170,7 @@ endfunction
 function! s:setup_footer_update() abort
     function! s:update_footer() abort
         let &l:statusline = '%#HLStatusLineNormal# '
-            \ . matchstr(g:scratch_menu.filtered_options[line('.')-1].full_option, '\v^[^:]+')
+            \ . g:scratch_menu.filtered_options[line('.')-1].full_filepath
             \ . '%=   %5.l/%L %P, %3.c '
         redrawstatus
     endfunction

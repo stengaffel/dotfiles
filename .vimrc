@@ -99,8 +99,8 @@ nnoremap <leader>m :marks abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ<c
 nnoremap <leader>/ :grep<space>
 nnoremap <leader>cc :e ~/.vimrc<cr>
 nnoremap <leader>cr :w<cr>:source %<cr>
-"nnoremap <silent> <leader>gu :call FindUsages(expand('<cword>'))<cr>zz
-
+"nnoremap <silent> gu :call FindUsages(expand('<cword>'), '-w')<cr>zz
+"vnoremap <silent> gu "zy:call FindUsages(getreg('z'), '')<cr>zz
 " map kl to Esc
 inoremap kl <Esc>
 
