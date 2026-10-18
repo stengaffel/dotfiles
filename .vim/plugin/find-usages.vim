@@ -24,7 +24,8 @@ function! s:open_scratch_menu(options, callback_func) abort
         \ 'filtered_options': [],
         \ 'callback_func': a:callback_func,
         \ 'state': {"max_len": -1,
-        \           "one_line_per_file": 0}
+        \           "one_line_per_file": 0,
+        \           "use_full_filepaths": 0}
         \ }
 
     call UpdateMenu()
@@ -36,6 +37,9 @@ function! s:open_scratch_menu(options, callback_func) abort
     nnoremap <buffer> <silent> q :call CloseScratchWindow(1)<cr>
     nnoremap <buffer> <silent> f
         \ :let g:scratch_menu.state.one_line_per_file = (g:scratch_menu.state.one_line_per_file+1) % 2 \|
+        \ :call UpdateMenu()<cr>
+    nnoremap <buffer> <silent> p
+        \ :let g:scratch_menu.state.use_full_filepaths = (g:scratch_menu.state.use_full_filepaths+1) % 2 \|
         \ :call UpdateMenu()<cr>
 endfunction
 
@@ -60,14 +64,15 @@ endfunction
 
 function! UpdateMenu() abort
     let s:location_format_pattern = '\v([^:/]+:%([0-9]+:){1,2})'
+    if g:scratch_menu.state.use_full_filepaths
+        let s:location_format_pattern = '\v^([^:]+:%([0-9]+:){1,2})'
+    endif
     function! s:format_line(idx, val) abort
         let matches = matchlist(a:val.full_option, s:location_format_pattern . '(.*)')
         return printf('%-' . (g:scratch_menu.state.max_len+5) . 's', matches[1]) . trim(matches[2])
     endfunction
-    if g:scratch_menu.state.max_len < 0
-        let g:scratch_menu.state.max_len = max(map(copy(g:scratch_menu.options), {idx, val ->
-            \ strdisplaywidth(matchstr(val.full_option, s:location_format_pattern))}))
-    endif
+    let g:scratch_menu.state.max_len = max(map(copy(g:scratch_menu.options), {idx, val ->
+        \ strdisplaywidth(matchstr(val.full_option, s:location_format_pattern))}))
     let l:options = copy(g:scratch_menu.options)
     if g:scratch_menu.state.one_line_per_file
         function! s:filter_duplicate_filepaths(seen, val) abort
