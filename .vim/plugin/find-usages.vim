@@ -12,6 +12,8 @@ function! s:open_scratch_menu(options, callback_func) abort
     setlocal noswapfile
     setlocal nobuflisted
     setlocal nomodified
+    setlocal nomodifiable
+    setlocal readonly
 
     setlocal number
     setlocal relativenumber
@@ -88,8 +90,11 @@ function! UpdateMenu() abort
     endif
     let g:scratch_menu.filtered_options = deepcopy(l:options)
     call map(l:options, function('s:format_line'))
+
+    setlocal modifiable noreadonly
     call deletebufline('%', 2, '$')
     call setline(1, l:options)
+    setlocal nomodifiable readonly
 endfunction
 
 function! CloseScratchWindow(return_to_origin) abort
